@@ -1,0 +1,54 @@
+fieldset {
+    display: block;
+    border:1px solid;
+}
+
+.box-border {
+    display: block;
+    border:1px solid;
+}
+
+
+.ancho80 {
+    display: inline-block;
+    width: 80px;
+}
+  
+.ancho40 {
+    display: inline-block;
+    width: 80px;
+}
+
+.labelgray {
+    background-color:lightgray;
+    border:1px solid;   
+}
+
+.editgray {
+    background-color:cyan;
+}
+
+@media (min-width: 600px) {
+    .cards { grid-template-columns: repeat(2, 1fr); }
+}
+
+.cards {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    gap: 1rem;
+}
+
+.card {
+    border: 3px;
+    border-color: black;
+    padding: 1rem;
+    height: auto;
+}
+
+.grid-container{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+  }
+  

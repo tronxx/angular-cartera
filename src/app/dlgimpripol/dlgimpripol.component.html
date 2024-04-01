@@ -1,0 +1,15 @@
+<div mat-dialog-content>{{title_z}} <br>
+
+    <label for="">Póliza de {{codigopol}} {{nombrepol}} </label><br>
+    <label for="fechapol">
+        Fecha Poliza
+        <input size="20" type="date"  name="fechapol"  [(ngModel)]="fechapol_z" id="fechapol">
+    </label>
+    <br>
+
+</div>
+<div mat-dialog-actions style="display: flex; justify-content: space-around; justify-items: center;">
+    <button mat-raised-button  color="warn" (click)="closeno()">Cancelar</button>
+    <button mat-raised-button  color="primary"   (click)="closeyes()">Aceptar</button>
+</div>
+

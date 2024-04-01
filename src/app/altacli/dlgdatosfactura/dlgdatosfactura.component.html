@@ -1,0 +1,65 @@
+<div mat-dialog-content>
+    <form #formularioCliente="ngForm" (ngSubmit)="formularioEnviado()" *ngIf= "factura">
+        <div name="factura">
+            <mat-card>
+                <mat-card-title>Datos de Factura</mat-card-title>
+                <label for="idseriefac"> Serie de Factura
+                    <input matInput placeholder="Serie" type="text" name="serifac" id="seriefac" [(ngModel)]="factura.serie"> 
+                </label>
+                <label for="numfac">Número Factura
+                    <input matInput placeholder="Número" type="text" name="numfac" id="numfac" [(ngModel)] = "factura.numero" > 
+                </label>
+                <label for="fechafac">Fecha
+                    <input matInput placeholder="Fecha" type="date" 
+                    (blur)="checa_fecha()"
+                    name="fechafac" id="fechafac" [(ngModel)] ="factura.fecha"> 
+
+                </label>
+                <label for="metpag"> Método de Pago
+                    <select placeholder="Método de Pago" 
+                      name="metpag" id="metpag" [(ngModel)]= "factura.cvemetodopago" >
+                      <option *ngFor="let mimetodopago of metodospago" value="{{mimetodopago.clave}}"
+                      selected="factura.cvemetodopago == mimetodopago.clave"
+                      >
+                      {{mimetodopago.clave}} {{mimetodopago.descri}} 
+                      </option>
+                    </select>
+
+                </label>
+                <label for="usocfdi"> Uso CFDI
+                    <select name="usocfdi" placeholder="Uso CFDI" [(ngModel)]= "factura.cveusocfdi" >
+                        <option *ngFor="let miusocfdi of usoscfdi" value="{{miusocfdi.clave}}"
+                          selected="factura.cveusocfdi == miusocfdi.clave"
+                        >
+                        {{miusocfdi.clave}} {{miusocfdi.descri}}
+                        </option>
+
+                    </select>
+
+                </label>
+                <label for="rfccliente">RFC Cliente
+                    <input matInput name="rfccliente" placeholder="RFC del Cliente" type="text" (blur)="rfcgenerico()" name="rfcfac" id="rfcfac" [(ngModel)] ="factura.rfc">
+                </label>
+                <label for="email">Email Cliente
+                    <input matInput placeholder="Email" type="text"  name="emailfac" id="emailfac" [(ngModel)] ="factura.email">
+                </label>
+                <label for="regimen">Régimen Cliente
+                    <select [disabled]="esrfcgenerico" name="regimen" placeholder="Régimen Fiscal" [(ngModel)]="factura.regimen">
+                        <option *ngFor="let miregimen of regimenes" 
+                        value="{{miregimen.codigo}}"
+                        selected="factura.regimen == miregimen.codigo" >
+                          {{miregimen.codigo}} {{miregimen.descripcion}}
+                        </option>
+
+                    </select>
+                </label>
+            </mat-card>
+        </div>
+
+    </form>
+</div>
+<div mat-dialog-actions style="display: flex; justify-content: space-around; justify-items: center;">
+    <button mat-raised-button  color="warn" (click)="closeno()">Cancelar</button>
+    <button mat-raised-button [disabled]="!todocorrecto_z" color="primary"   (click)="closeyes()">Aceptar</button>
+</div>
+

@@ -1,0 +1,11 @@
+<div class="topnav" id="myTopnav">
+  <a mat-button routerLink="/main">Cartera</a>
+  <a mat-button *ngFor="let opcion of menus_z"  routerLink="{{opcion.link}}" >{{opcion.titulo}}</a>
+  <a mat-raised-button *ngFor="let opcion of menuder_z" color="accent"  routerLink="{{opcion.link}}" >
+    <mat-icon>exit_to_app</mat-icon>
+    {{opcion.titulo}}
+  </a>
+
+</div>
+
+<router-outlet></router-outlet>

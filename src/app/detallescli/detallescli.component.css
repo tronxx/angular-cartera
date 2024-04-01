@@ -1,0 +1,47 @@
+label  {
+    margin-right: 3px;
+}
+
+input  {
+   margin-right: 3px;
+}
+
+.boxscroll {
+    height:150px; 
+    width: 300px;
+    overflow: auto;
+    display: block;
+    border:1px solid black;
+}
+
+.movtos {
+  overflow: auto;
+  display: block;
+  border:1px solid black;
+}
+
+.ancho80 {
+    display: inline-block;
+    width: 80px;
+  }
+  
+  .ancho40 {
+    display: inline-block;
+    width: 80px;
+  }
+
+.editgray {
+  background-color:cyan;
+}
+
+.labelgray {
+  background-color:lightgray;
+}
+
+.cliente {
+  min-height: 120px;
+  width: 100%;
+  text-align: left;
+  word-wrap: break-word;
+}
+

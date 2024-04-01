@@ -1,0 +1,21 @@
+
+.ancho120 {
+    display: inline-block;
+    width: 120px;
+  }
+  
+  .ancho40 {
+    display: inline-block;
+    width: 80px;
+  }
+  
+  ::ng-deep .mat-select-value {
+    max-width: 100%;
+    min-width: 100%;
+    width: auto;
+  }
+  ::ng-deep .mat-form-field-infix {
+    width: auto !important;
+    min-width: 180px !important;
+    padding-right: 13px !important;
+  }
