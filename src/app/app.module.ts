@@ -99,6 +99,7 @@ import { TomafotosComponent } from './common/tomafotos/tomafotos.component';
 import { CameraComponent } from './common/camera/camera.component';
 import { DlgacumpolComponent } from './common/dlgacumpol/dlgacumpol.component';
 import { CapturavtasComponent } from './capturavtas/capturavtas.component';
+import { DlgcartasComponent } from './morosos/dlgcartas/dlgcartas.component';
 
 @NgModule({
   declarations: [
@@ -166,6 +167,7 @@ import { CapturavtasComponent } from './capturavtas/capturavtas.component';
     CameraComponent,
     DlgacumpolComponent,
     CapturavtasComponent,
+    DlgcartasComponent,
   ],
   imports: [
     BrowserModule,

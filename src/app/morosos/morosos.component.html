@@ -1,4 +1,4 @@
-<img src="https://iciredimpagados.com/wp-content/uploads/2017/05/c%C3%B3mo-cobrar-a-los-morosos-300x300.jpg" alt="">
+<img src="../../assets/images/morosos.webp" alt="">
 <div>
     <ul>
         <li *ngFor="let menu of menus">
@@ -26,6 +26,13 @@
                 <mat-icon aria-hidden="false" aria-label="Example new icon">print</mat-icon>
                 Imprimir  Comisiones Morosos x Dia
             </button>
+        </li>
+        <li>
+            <button mat-raised-button color="primary" (click)="generar_cartas()">
+                <mat-icon aria-hidden="false" aria-label="Example new icon">print</mat-icon>
+                Cartas para Morosos
+            </button>
+
         </li>
     </ul>
 

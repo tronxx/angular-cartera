@@ -9,6 +9,11 @@
     width: 80px;
 }
 
+.labeloferta {
+    display: block;
+    width: 80%;
+}
+
 mat-form-field {
     padding-left: 5px;
 }

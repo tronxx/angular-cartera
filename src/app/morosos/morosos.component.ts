@@ -12,6 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DlgacumpolComponent } from '../common/dlgacumpol/dlgacumpol.component';
+import { DlgcartasComponent } from './dlgcartas/dlgcartas.component';
 
 @Component({
   selector: 'app-morosos',
@@ -34,6 +35,8 @@ export class MorososComponent implements OnInit {
     "iniciales":"",
     "nivel":""
   }
+
+  cartas:any;
 
   cia_z ?: Compania;
 
@@ -65,6 +68,7 @@ export class MorososComponent implements OnInit {
     this.buscar_codigos_poliza();
     this.cia_z =  this.serviciopolizas.obtendatoscia();
     if (this.usrreg_z.nivel == "S") this.datospolenabled_z=true;
+    this.carga_cartas();
 
   }
 
@@ -195,6 +199,34 @@ export class MorososComponent implements OnInit {
       }
     
     });
+  }
+
+  carga_cartas() {
+    this.configuracion.obten_lista_cartas().subscribe( res => {
+      this.cartas = res;
+      console.log("Cartas", this.cartas);
+      
+    });
+
+  }
+
+  generar_cartas() {
+    const dialogref = this.dialog.open(DlgcartasComponent, {
+      width:'350px',
+      data: JSON.stringify(this.cartas)
+    });
+    dialogref.afterClosed().subscribe(res => {
+      //console.log("Debug", res);
+      if(res) {
+        this.alerta("Se ha generado la carta");
+      }
+    });
+
+  }
+
+  seleccionar_cartas() {
+
+
   }
   
   

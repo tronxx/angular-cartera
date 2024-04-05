@@ -74,6 +74,10 @@ export class ConfiguracionService {
 
   }
 
+  obten_lista_cartas() : Observable<any[]> {
+    return this.http.get<any>("../assets/config/cartas.json");
+  }
+
   getcvecia () {
     let micvecia_z="";
     if(this.cia) {

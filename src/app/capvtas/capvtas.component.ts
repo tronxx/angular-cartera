@@ -359,10 +359,6 @@ export class CapvtasComponent implements OnInit {
     if((this.ticte == "TC" && plazotc == 0)  || this.ticte == "CC" )  {
       this.oferta = true;
     }
-    if(this.ticte == "TC" && plazotc == 0) {
-      this.factoroferta = 3;
-      this.oferta = true;
-    }
 
     if(milinea != 'MOTO' && this.nulet == 4) {
       this.factordscto = 12;
@@ -376,11 +372,18 @@ export class CapvtasComponent implements OnInit {
       ii_z = miren.id;
       if(miren.codigo != "AUXILIAR") {
         if(miren.esoferta && this.oferta) {
+          if(this.ticte == "TC" && plazotc == 0) {
+            this.factoroferta = 3;
+            this.oferta = true;
+          }
+      
           hayoferta = true;
           importe = (miren.proferta * (1 + this.factoroferta /100 ) / (miren.piva / 100 + 1));
         } else {
+          this.factoroferta = 0;
           miren.precionormal = miren.preciolista;          
           importe = miren.precionormal * (1 + this.factoroferta /100 ) / (miren.piva / 100 + 1);
+          messages_z.push("01-a Calculando:" + miren.precionormal.toString() + ":" + this.factoroferta.toString());
         }
         iva =  importe * (miren.piva / 100);
         this.articuloscotizados[ii_z].importe = importe;
@@ -689,14 +692,15 @@ busca_tipos_tarjetas() {
     ubiage : this.ubica,
     ticte: this.ticte
   }
-  if(this.linea_z != "MOTO") this.linea_z = "GRAL";
+  let milinea = this.linea_z;
+  if(milinea != "MOTO") milinea = "GRAL";
   mistablasdescto.forEach(rentabla => {
-    if(this.linea_z == rentabla.linea && plazomax < rentabla.plazo) {
+    if(milinea == rentabla.linea && plazomax < rentabla.plazo) {
         plazomax = rentabla.plazo;
       }
   });
   this.tarjetastc = [];
-  console.log("Plazo Max:", plazomax, " Linea:", this.linea_z);
+  //console.log("Plazo Max:", plazomax, " Linea:", this.linea_z);
   
   this.servicioclientes.buscar_tarjetas_tc(JSON.stringify(params_z)).subscribe(
     respu => {

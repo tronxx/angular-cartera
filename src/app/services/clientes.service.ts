@@ -1516,6 +1516,15 @@ ClientesService {
     // return this.http.post(this.url + 'usuarios/busca_usuarios.php', body,{'headers':headers});
   }
 
+  genera_carta_morosos(params:string) {
+    let misparams = JSON.parse(params);
+    console.log("Debug: Estoy en genera_carta_morosos ", params);
+    var miurl = this.url + "polizas/impresioncarta.php?modo=impresion_carta" + 
+    `&codigo=${misparams.codigo}&carta=${misparams.carta}`;
+      console.log("Debug url: ", miurl);
+      window.open(miurl, "_blank");
+  }
+
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {

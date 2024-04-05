@@ -1,0 +1,18 @@
+[
+    {
+        "codigo":"carta01",
+        "archivo":"carta_01",
+        "descripcion": "Notificación urgente"
+    },
+    {
+        "codigo":"citatorio02",
+        "archivo":"citatorio_02",
+        "descripcion": "Citatorio de pago"
+    },
+    {
+        "codigo":"juridico",
+        "archivo":"despacho_juridico",
+        "descripcion": "Despacho Jurídico"
+    }
+    
+]

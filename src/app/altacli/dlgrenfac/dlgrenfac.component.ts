@@ -218,7 +218,7 @@ export class DlgrenfacComponent implements OnInit {
           this.nuevorenfac.renfac.preciou *= (1 - (tasadecto / 100) );
         }
       }
-      if(this.ticte == "TC") {
+      if(this.ticte == "TC") { 
         let tasadecto = this.buscar_tasa_descto_cont(this.linea_z, this.ticte, this.tarjeta);
         this.nuevorenfac.renfac.preciou *= (1 - (tasadecto / 100) );
       }

@@ -112,7 +112,7 @@
                         <input matInput type="number" name="preciou" id="preciou"
                         [disabled]="!pedirprecio"
                         [(ngModel)]="renfac.preciou">
-                        <label for="" *ngIf="mostraroferta">
+                        <label class="labeloferta" for="" *ngIf="mostraroferta">
                             <mat-icon > local_offer</mat-icon>
                             Este Producto está en Oferta {{ this.preciooferta_z | currency}}
                         </label>
