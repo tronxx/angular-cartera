@@ -78,7 +78,10 @@
                             <th>Pagado</th>
                         </tr>
                         
-                        <tr *ngFor="let mivencimiento of letras">
+                        <tr *ngFor="let mivencimiento of letras"
+                        [class.vencido] = "mivencimiento.vencido"
+                        [class.pagado] = "mivencimiento.pagado"
+                        >
                             <td>{{mivencimiento.letra}}/{{cliente.nulet}}</td>
                             <td>{{mivencimiento.vence}}</td>
                             <td >

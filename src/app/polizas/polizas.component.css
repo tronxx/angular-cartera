@@ -66,3 +66,11 @@
   align-items: center;
   justify-content: center;
 }
+
+.vencido {
+  background-color: red;
+}
+
+.pagado {
+background-color: green;
+}

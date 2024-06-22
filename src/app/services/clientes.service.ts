@@ -4,6 +4,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { Cliente } from '../models/clientes';
+import { Clienteenganche } from '../models';
 import { Aval } from '../models/aval';
 import { ConfiguracionService } from './configuracion.service'
 import { Movclis } from '../models';
@@ -174,17 +175,17 @@ ClientesService {
   }
 
 
-  obtenrelvtas_enganches ( parametros: string): Observable<Cliente[]> {
+  obtenrelvtas_enganches ( parametros: string): Observable<Clienteenganche[]> {
     
     let respu_z = "";
     let miurl = this.url + "altas/serviciosaltas.php"
     const headers = { 'content-type': 'text/plain'};
     const body=parametros;
     
-    return this.http.post<Cliente[]>(miurl, parametros, {'headers':headers}).
+    return this.http.post<Clienteenganche[]>(miurl, parametros, {'headers':headers}).
     pipe(
       tap(_ => this.log('fetched Clientes')),
-      catchError(this.handleError<Cliente[]>('Ocurrio un error en Post obten clientes'))
+      catchError(this.handleError<Clienteenganche[]>('Ocurrio un error en Post obten clientes'))
     );
     // return this.http.post(this.url + 'usuarios/busca_usuarios.php', body,{'headers':headers});
   }

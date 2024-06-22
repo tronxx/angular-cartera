@@ -15,7 +15,8 @@
     <br>
     <label for="fechatimbrado">Fecha Timbrado</label>
     <input type="date" name="fechatimbrado" (blur)="checa_datos_validos()" id="fechatimbrado"[(ngModel)]="fechatimbre_z" >
-    <button [disabled]="datosinvalidos_z" mat-raised-button color="primary" (click)="timbrar_enganches()">
+    <button [disabled]="datosinvalidos_z || enespera_z" mat-raised-button color="primary" (click)="timbrar_enganches()">
+        <mat-spinner *ngIf="enespera_z"></mat-spinner>
         Timbrar Enganche
     </button>
 
@@ -29,6 +30,9 @@
             <th>Compra</th>
             <th>Cargos</th>
             <th>Enganche</th>
+            <th>Timbrado</th>
+            <th>Factura Enganches</th>
+            <th>Uuid Fac. Enganches</th>
         </tr>
         <tr *ngFor="let miclien of clientes">
             <td>{{miclien.numcli}} </td>
@@ -36,6 +40,9 @@
             <td>{{miclien.compra}} </td>
             <td align ="right">{{miclien.cargos | currency}} </td>
             <td align ="right">{{miclien.enganche | currency}} </td>
+            <td>{{miclien.timbrado}} </td>
+            <td>{{miclien.factimbre}} </td>
+            <td>{{miclien.uuidfactimbre}} </td>
         </tr>
     </table>
 </div>

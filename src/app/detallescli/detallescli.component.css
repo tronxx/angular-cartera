@@ -45,3 +45,10 @@ input  {
   word-wrap: break-word;
 }
 
+.vencido {
+  background-color: red;
+}
+
+.pagado {
+background-color: green;
+}

@@ -37,3 +37,4 @@ export { Desrutasmor } from './desrutamor';
 export * from './sabanavtas';
 export * from './reportescli';
 export * from './renposer';
+export * from './clientesenganches';

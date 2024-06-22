@@ -38,12 +38,15 @@
                                                 <th>Vence</th>
                                                 <th>Pagado</th>
                                             </tr>
-                                            <tr *ngFor="let mivencimiento of letras">
+                                            <tr 
+                                            [class.vencido] = "mivencimiento.vencido"
+                                            [class.pagado] = "mivencimiento.pagado"
+                                            *ngFor="let mivencimiento of letras">
                                                 <td>{{mivencimiento.letra}}/{{cliente.nulet}}</td>
                                                 <td>{{mivencimiento.vence}}</td>
                                                 <td >
                                                     <mat-icon *ngIf="mivencimiento.pagado">done</mat-icon>
-                                                    <mat-icon *ngIf="mivencimiento.vencido" color="warn">close</mat-icon>
+                                                    <mat-icon *ngIf="mivencimiento.vencido">close</mat-icon>
                                                 </td>
                                             </tr>
                                         </table>

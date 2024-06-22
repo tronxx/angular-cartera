@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ClientesService } from '../services/clientes.service';
 import { Cliente } from '../models/clientes';
+import { Clienteenganche } from '../models';
 import { FormControl } from '@angular/forms'
 import { formatNumber,  CommonModule,  CurrencyPipe, formatCurrency, formatDate, DatePipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button'; 
@@ -14,6 +15,7 @@ import { ConfiguracionService } from '../services/configuracion.service';
 import { Observable } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SpinnerComponent } from '../common/spinner/spinner.component';
+
 
 @Component({
   selector: 'app-polengan',
@@ -55,8 +57,8 @@ export class PolenganComponent implements OnInit {
   
 
   
-  clientes : Cliente[] = [];
-  cliente? : Cliente;
+  clientes : Clienteenganche[] = [];
+  cliente? : Clienteenganche;
 
   cia_z ?: Compania;
   claveempresa = "";
@@ -99,6 +101,7 @@ export class PolenganComponent implements OnInit {
     }
     this.fechafin_z = this.config.fecha_a_str(new Date(), "YYYY-mm-dd");
     this.fechatimbre_z = this.fechafin_z;
+    console.log("this.misdatosrelvta.ubica", this.misdatosrelvta.ubica);
     //this.mimodelo.ubicacionfinal = misdatosiniciales_z.ubicacionfinal;
   }
 
@@ -175,6 +178,7 @@ export class PolenganComponent implements OnInit {
       "ubicacion":this.misdatosrelvta.ubica,
       "fechatimbre":this.fechatimbre_z
     }
+    console.log("parametros timbrado", JSON.stringify(params_z) );
     this.enespera_z=true;
 
     this.servicioclientes.timbrar_enganches(JSON.stringify(params_z)).subscribe(
