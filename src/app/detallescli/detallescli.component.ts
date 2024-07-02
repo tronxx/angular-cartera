@@ -16,7 +16,8 @@ import { Aval } from '../models/aval'
 import { Movclis } from '../models/movclis'
 import { Observcli } from '../models/observcli';
 import { Plazos } from '../models/plazos';
-import { Solicitud } from '../models/solicitud'
+import { Solicitud } from '../models/solicitud';
+import { Cliagentes } from '../models/cliagentes';
 import { DlgedoctaComponent  } from '../common/dlgedocta/dlgedocta.component';
 import { SpinnerComponent } from '../common/spinner/spinner.component';
 
@@ -38,6 +39,7 @@ export class DetallescliComponent implements OnInit {
   miobserv? : Observcli;
   plazos: Plazos[] = [];
   miplazo? : Plazos;
+  cliagentes : Cliagentes[] = [];
 
   nomaval = ""
   diraval = "";
@@ -105,6 +107,7 @@ export class DetallescliComponent implements OnInit {
             this.conpromocion = true;
           }
           this.busca_aval(this.cliente.idcli);
+          this.busca_cliagentes(this.cliente.idcli);
           this.busca_movclis(this.cliente.idcli);
           this.mostrar_vencimientos();
           this.esstatus1 = (this.cliente.status == "*")
@@ -121,6 +124,23 @@ export class DetallescliComponent implements OnInit {
     );
 
   }
+
+  busca_cliagentes(idcli_z : number) {
+      var params_z = {
+        modo : "buscar_cli_agentes",
+        idcli : idcli_z
+      }
+      console.log("Debug: Estoy en busca cliagentes ", idcli_z);
+      this.servicioclientes.busca_cliagentes_cartera(JSON.stringify(params_z)).subscribe(
+        respu => {
+          if(respu) {
+            this.cliagentes = respu;
+          } 
+        }
+      );
+  
+  }
+
 
   calcula_mub () : number {
     let mub = 0;

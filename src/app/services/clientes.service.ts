@@ -630,6 +630,29 @@ ClientesService {
     return (this.configuracion.generavencimientos(fechavta, qom, inicial, final, diasgracia, letraspagadas));
   }
 
+  busca_cliagentes_cartera( parametros: string): Observable<Cliagentes[]> {
+    
+    let respu_z = "";
+    let miurl = this.url + "clientes/servicios.php"
+    const headers = { 'content-type': 'text/plain'};
+    const body=parametros;
+    let misparams = JSON.parse(parametros);
+    let misparamnvo = {
+      modo: "buscar_cli_agentes",
+      idcli: misparams.idcli
+    }
+
+    console.log("Debug: Estoy en busca Agentes_Clientes Altas", parametros);
+  
+    return this.http.post<Cliagentes[]>(miurl, JSON.stringify(misparamnvo), {'headers':headers}).
+    pipe(
+      tap(_ => this.log('fetched Cliagentes')),
+      catchError(this.handleError<Cliagentes[]>('Ocurrio un error en Post obten Cliagentes altas'))
+    );
+  }
+
+
+
   busca_cliagentes_altas( parametros: string): Observable<Cliagentes[]> {
     
     let respu_z = "";

@@ -63,6 +63,17 @@
                 <label for="bonif">Bonificacion</label>
                 <input readonly name="bonif" id="bonif" type="text" size="10" value= "{{ cliente.bonificacion | currency }}"><br>
                 <label *ngIf="conpromocion"  class="labelgray" >Dias Promocion {{ cliente.diasgracia }} </label> <br>
+                
+                <label for="ticte">Tipo</label>
+                <input type="text" size="3" readonly id="ticte" value = "{{cliente.ticte}}">
+
+                <label for="vendedor">Vendedor</label>
+                <select>
+                    <option *ngFor="let miagente of cliagentes" >
+                        {{ miagente.codvnd}} {{miagente.nombre}}
+                    </option>
+                </select>
+
                 <label for="mub">MUF</label>
                 <input type="text" size="3" readonly id="mub" value = "{{mub | number: '1.2-2'}}">
                 <label for="idcli">idcli</label>
