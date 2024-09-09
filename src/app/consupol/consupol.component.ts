@@ -36,6 +36,7 @@ export class ConsupolComponent implements OnInit {
   polizaactiva_z = false;
   aceptarpago = false;
   ultltaoculto_z = true;
+  imprimiendodespacho = false;
   errores_z = [""];
   sinerrores = true;
   errorespoliza = [""]
@@ -234,7 +235,7 @@ imprimirdespacho() {
       if(mirespu_z.status != "C") {
         this.checa_si_cerrar_poliza("Poliza Abierta, Se va a Cerrar al Imprimir el despacho, seguro de continuar ?");
       } else {
-        this.serviciopolizas.obten_impresion_despacho_caja(JSON.stringify(params));
+        const enviado =  this.serviciopolizas.obten_impresion_despacho_caja(JSON.stringify(params));
       }
     }
   );

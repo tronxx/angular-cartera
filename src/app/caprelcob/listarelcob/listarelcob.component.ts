@@ -204,7 +204,7 @@ export class ListarelcobComponent implements OnInit {
         this.serviciopolizas.obtener_datos_poliza(JSON.stringify(params_z)).subscribe(
           respu => {
             let mirespu_z = respu;
-            params_z.modo = "imprimir_poliza_morosos";
+            params_z.modo = "impresion_poliza_morosos";
             //console.log("Debug: 216 mirespu", mirespu_z);
             //this.alerta(JSON.stringify(respu));
             if(mirespu_z.error == "Poliza Inexistente") {

@@ -1390,6 +1390,20 @@ ClientesService {
     // return this.http.post(this.url + 'usuarios/busca_usuarios.php', body,{'headers':headers});
   }
 
+  buscar_lista_asi(): Observable<any> {
+    let respu_z = "";
+    let miurl = this.url + "altas/serviciosaltas.php?modo=buscar_lista_asi";
+    const headers = { 'content-type': 'text/plain'};
+    const body="";
+    console.log("Debug: Estoy en buscar_lista_asi:");
+    return this.http.get<any>(miurl, {'headers':headers}).
+    pipe(
+      tap(_ => this.log('buscar_lista_asi')),
+      catchError(this.handleError<any>('Ocurrio un error en Post buscar_lista_asi '))
+    );
+    // return this.http.post(this.url + 'usuarios/busca_usuarios.php', body,{'headers':headers});
+  }
+
 
   grabar_solicitud_altas( parametros: string): Observable<any> {
     

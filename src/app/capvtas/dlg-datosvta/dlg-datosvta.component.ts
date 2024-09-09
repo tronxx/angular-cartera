@@ -51,7 +51,8 @@ export class DlgDatosvtaComponent implements OnInit {
     { clave:"AR", descri:"AVAL CON REFERENCIAS"},
     { clave:"CR", descri:"CLIENTE CON REFERENCIAS"},
     { clave:"CC", descri:"CLIENTE DE CONTADO"},
-    { clave:"TC", descri:"TARJETA CREDITO"}
+    { clave:"TC", descri:"TARJETA CREDITO"},
+    { clave:"FI", descri:"CLIENTE ASI"},
 
   ]
 
@@ -169,7 +170,7 @@ export class DlgDatosvtaComponent implements OnInit {
     if(params_z.status != undefined) {
       this.nvocli.status = params_z.status;
     }
-    if(params_z.ticte == "CC" || params_z.ticte == "TC") {
+    if(params_z.ticte == "CC" || params_z.ticte == "TC" || params_z.ticte == "FI") {
       this.conaval = false;
       this.nvocli.qom = "C";
     }

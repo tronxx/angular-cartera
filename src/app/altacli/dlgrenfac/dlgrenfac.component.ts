@@ -21,6 +21,7 @@ import { Articulo } from '../../models';
 import { Serie } from '../../models';
 import { DlgbusarticuloComponent } from '../../common/dlgbusarticulo/dlgbusarticulo.component';
 import { Ofertas } from '../../models';
+import { Listaasi } from '../../models';
 import { Factorvtacred } from '../../models';
 import { Tabladesctocont } from '../../models';
 import { Tarjetatc } from '../../models/tipostarjetastc';
@@ -54,6 +55,7 @@ export class DlgrenfacComponent implements OnInit {
   datoshabilitados = true;
   aceptarok = true;
   mostraroferta = false;
+  esproductoasi = false;
   ticte = "";
   qom = "";
   nlets = 0;
@@ -92,6 +94,7 @@ export class DlgrenfacComponent implements OnInit {
   tarjetastc : Tarjetatc[] = [];
   tarjetatc?: Tarjetatc;
   ofertas: Ofertas[] = [];
+  listaasi: Listaasi[] = [];
   
   constructor(
     public dialog: MatDialog, public dialogRef: MatDialogRef<DlgrenfacComponent>,
@@ -117,7 +120,6 @@ export class DlgrenfacComponent implements OnInit {
     if(datosparam.buscaroferta == "NO") {
       this.buscaroferta = false;
     }
-    this.carga_ofertas();
     this.nuevorenfac.renfac.codigo = datosparam.codigo;
     this.nuevorenfac.renfac.folio = datosparam.folio;
     this.nuevorenfac.renfac.serie = datosparam.serie;
@@ -131,6 +133,7 @@ export class DlgrenfacComponent implements OnInit {
     this.nlets = datosparam.nulets;
     this.tarjeta = datosparam.tarjeta;
     this.ubica_z = datosparam.ubica_z;
+    this.carga_ofertas();
     if(datosparam.codigo) this.busca_articulo();
 
   }
@@ -201,7 +204,13 @@ export class DlgrenfacComponent implements OnInit {
       this.foliorequerido = true;
       this.nuevorenfac.oferta = "N";
       console.log("Este cliente ticte:", this.ticte);
-      this.preciooferta_z = this.busca_oferta (this.articulo.codigo);
+      // a los clientes FI  no se les aplica oferta ni descuento
+      if(this.ticte == "FI") {
+        this.nuevorenfac.preciolista = this.busca_precio_asi(this.articulo.codigo);
+        this.renfac.preciou = this.nuevorenfac.preciolista;
+      } else {
+        this.preciooferta_z = this.busca_oferta (this.articulo.codigo);
+      }
       this.mostraroferta = (this.preciooferta_z > 0);
       
       if (this.ticte == "XC" ) {
@@ -391,6 +400,15 @@ export class DlgrenfacComponent implements OnInit {
         this.tabladesctoscont = respu;
       }
     );
+    if(this.ticte == 'FI') {
+      this.servicioclientes.buscar_lista_asi().subscribe(
+        respu => {
+          this.listaasi = respu;
+          console.log("Listaasi", this.listaasi);
+        }
+      );
+  
+    }
     let params_z = {
       modo : "buscar_tarjetas_tc",
       ubiage : this.ubica_z,
@@ -404,7 +422,26 @@ export class DlgrenfacComponent implements OnInit {
       
   }
 
+  busca_precio_asi(codigo: string) : number {
+    let precioasi = 0;
+    const codigoenasi = this.listaasi.filter((listaasi) => listaasi.codigo == codigo);
+    if(!codigoenasi.length) {
+        this.esproductoasi = false;
+    } else {
+      precioasi = codigoenasi[0].precioasi;
+      this.esproductoasi = true;
+    }
+    return precioasi;
+  }
+
   valida_aceptar ( ) {
+    if(this.ticte == "FI") {
+      if(!this.esproductoasi) {
+        this.aceptarok = false;
+        this.alerta("Este artículo no puede venderse en ASI")
+        return;
+      }
+    }
     if(!this.foliorequerido) {
       this.aceptarok = true;
       return;
@@ -417,8 +454,8 @@ export class DlgrenfacComponent implements OnInit {
       this.aceptarok = true;
       return;
     }
-    console.log('Serie:', this.renfac.serie, "Es moto:", this.esmoto,
-    "Seriemotor Valida:", this.seriemotorvalida, " Seriemotovalida:", this.seriemotovalida);
+    //console.log('Serie:', this.renfac.serie, "Es moto:", this.esmoto,
+    //"Seriemotor Valida:", this.seriemotorvalida, " Seriemotovalida:", this.seriemotovalida);
     if(!this.esmoto) {
       if(this.renfac.serie) {
         this.aceptarok = true;
@@ -452,7 +489,17 @@ export class DlgrenfacComponent implements OnInit {
 
   }
   
-
+  alerta(mensaje: string) {
+    const dialogref = this.dialog.open(DialogBodyComponent, {
+      width:'350px',
+      data: mensaje
+    });
+    dialogref.afterClosed().subscribe(res => {
+      //console.log("Debug", res);
+    });
+  
+  }
+  
   formularioEnviado() {}
 
 }

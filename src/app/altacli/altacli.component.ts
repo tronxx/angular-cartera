@@ -86,9 +86,10 @@ export class AltacliComponent implements OnInit {
     { clave:"AR", descri:"AVAL CON REFERENCIAS"},
     { clave:"CR", descri:"CLIENTE CON REFERENCIAS"},
     { clave:"CC", descri:"CLIENTE DE CONTADO"},
-    { clave:"TC", descri:"TARJETA CREDITO"}
-
+    { clave:"TC", descri:"TARJETA CREDITO"},
+    { clave:"FI", descri:"CLIENTE ASI"},
   ]
+  
   meses_z = [
     { clave:1, descri:"ENERO"},
     { clave:2, descri:"FEBRERO"},

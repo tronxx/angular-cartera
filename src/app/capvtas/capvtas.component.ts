@@ -162,7 +162,8 @@ export class CapvtasComponent implements OnInit {
     { clave:"AR", descri:"AVAL CON REFERENCIAS"},
     { clave:"CR", descri:"CLIENTE CON REFERENCIAS"},
     { clave:"CC", descri:"CLIENTE DE CONTADO"},
-    { clave:"TC", descri:"TARJETA CREDITO"}
+    { clave:"TC", descri:"TARJETA CREDITO"},
+    { clave:"FI", descri:"CLIENTE ASI"},
 
   ]
 
@@ -232,7 +233,7 @@ export class CapvtasComponent implements OnInit {
           this.alerta("La Linea Moto no se puede mezclar");
         } else {
           this.codigo_z = res.renfac.codigo;
-          if(this.codigo_z != "AUXILIAR") {
+          if(this.codigo_z != "AUXILIAR" && this.ticte != "FI") {
             this.linea_z = res.linea;
             proferta = this.busca_oferta(this.codigo_z);
           } 
@@ -420,7 +421,9 @@ export class CapvtasComponent implements OnInit {
       this.totprodfin = this.totgral - this.tottotal;
       if(this.totprodfin < 0) this.simostrarprodfin = false; else  this.simostrarprodfin = true;
     } else {
-      this.factordscto = this.buscar_tasa_descto_cont(milinea, this.ticte, this.mitarjetatc);
+      if(this.ticte != "FI" ) {
+        this.factordscto = this.buscar_tasa_descto_cont(milinea, this.ticte, this.mitarjetatc);
+      }
       if(this.factordscto == -1 ) {
         this.hayerror = true;
         this.msgerror_z = "Forma de Pago Invalida";
@@ -674,7 +677,7 @@ selecciona_tarjetas_tc() {
     this.busca_tipos_tarjetas();
   } else {
     this.contarjetatc = false;
-    if(this.ticte != "CC" && this.ticte != "FR") {
+    if(this.ticte != "CC" && this.ticte != "FI") {
       this.escredito = true;
       this.qom = "Q";
     }
@@ -730,7 +733,7 @@ aceptar() {
 }
 
 async pide_datos_cliente() {
-  if(this.ticte == "CC" || this.ticte == "TC") {
+  if(this.ticte == "CC" || this.ticte == "TC" || this.ticte == "FI") {
      this.enganche = this.totgral;
   }
   let params_z = {
@@ -861,7 +864,7 @@ async grabar_cliente(datoscliente: string): Promise <any> {
   nvocli.clienterespu.canle = this.preciolet;
   nvocli.clienterespu.cargos = this.totgral;
   nvocli.clienterespu.servicio = this.servicio;
-  nvocli.clienterespu.preciolista = prlista_z / (nvocli.clienterespu.piva / 100 + 1);
+  nvocli.clienterespu.preciolista = Math.round( prlista_z / (nvocli.clienterespu.piva / 100 + 1) * 100) / 100;
   nvocli.clienterespu.tarjetatc = this.mitarjetatc;
 
   this.servicioclientes.agrega_nuevo_cliente(JSON.stringify(nvocli)).subscribe( res =>{
@@ -953,7 +956,6 @@ pedir_datos_fac() {
     if(res) {
       this.datosfactura_z = JSON.stringify(res);
       console.log("-x021- Datos Factura:", this.datosfactura_z);
-      
       this.yapedidatos = true;
     }
 

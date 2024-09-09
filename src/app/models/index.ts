@@ -38,3 +38,4 @@ export * from './sabanavtas';
 export * from './reportescli';
 export * from './renposer';
 export * from './clientesenganches';
+export * from './listaasi';

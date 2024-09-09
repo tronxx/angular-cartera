@@ -136,6 +136,8 @@ export class DlgdatosfacturaComponent implements OnInit {
   closeyes() {
     // console.log("Debug: Cerrando dlgdatosfac ", this.factura);
     if(this.checa_fecha()) {
+      if(this.factura)
+        this.factura.serie = this.factura?.serie.trim()
       this.dialogRef.close(this.factura);
     }
     
