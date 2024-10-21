@@ -944,6 +944,7 @@ pedir_datos_fac() {
     factura:  <Factura> { },
     ubiage: this.ubica,
     statuscli: this.nvoclistatus,
+    ticte: this.ticte,
     modo: "NUEVO"
   }
   params_z.factura.idcli = this.idcli;

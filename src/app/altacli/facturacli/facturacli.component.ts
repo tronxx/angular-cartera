@@ -442,15 +442,28 @@ imprimir_factura() {
 }
 
 descarga_pdf_fac(uuid: string) {
+  const ciudadcli = this.cliente?.poblac;
+  const codpostal = this.cliente?.codpost;
+  const direccli = this.cliente?.direc;
+  const ticte = this.cliente?.ticte;
   let strrotarfac_z = "NO";
   if (this.rotarfac) {
     strrotarfac_z = "ROTAR";
   }
   let params_z = {
     uuid: uuid,
+    ciudad: ciudadcli,
+    codpostal: codpostal,
+    direccion: direccli,
     rotar: strrotarfac_z
   }
-  this.servicioclientes.obten_pdf_cfdi_factura(JSON.stringify(params_z));
+  if(ticte == 'FI') {
+    this.servicioclientes.obten_pdf_cfdi_factura_asi(JSON.stringify(params_z));
+  } else {
+    this.servicioclientes.obten_pdf_cfdi_factura(JSON.stringify(params_z));
+
+  }
+  
 
 }
 

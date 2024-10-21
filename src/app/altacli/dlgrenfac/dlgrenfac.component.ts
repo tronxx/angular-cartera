@@ -425,9 +425,10 @@ export class DlgrenfacComponent implements OnInit {
   busca_precio_asi(codigo: string) : number {
     let precioasi = 0;
     const codigoenasi = this.listaasi.filter((listaasi) => listaasi.codigo == codigo);
+    console.log("Filtro Asi", codigoenasi);
     if(!codigoenasi.length) {
         this.esproductoasi = false;
-    } else {
+      } else {
       precioasi = codigoenasi[0].precioasi;
       this.esproductoasi = true;
     }

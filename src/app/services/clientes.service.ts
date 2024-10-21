@@ -1422,13 +1422,26 @@ ClientesService {
     // return this.http.post(this.url + 'usuarios/busca_usuarios.php', body,{'headers':headers});
   }
 
-
-
   obten_pdf_cfdi_factura(params:string) {
     let misparams = JSON.parse(params);
     // console.log("Debug: Estoy en obtenpdfcfdi ", params);
     var miurl = this.url + "altas/serviciosaltas.php?modo=descarga_pdf_cfdi_factura&uuid="+misparams.uuid + "&rotarfac="+misparams.rotar;
     window.open(miurl, "_blank");
+  }
+
+  obten_pdf_cfdi_factura_asi(params:string) {
+    let misparams = JSON.parse(params);
+    const headers = { 'content-type': 'text/plain'};
+    var miurl = this.url + `altas/serviciosaltas.php?`;
+    var miurl = this.url + `altas/serviciosaltas.php?modo=descarga_pdf_cfdi_factura_asi&uuid=${misparams.uuid}&rotarfac=${misparams.rotar}&ciudad=${misparams.ciudad}&codpostal=${misparams.codpostal}&direccion=${misparams.direccion}`;
+    miurl = this.configuracion.encodeUrl(miurl);
+    console.log("Debug: Estoy en obten_pdf_cfdi_factura_asi ", miurl, params);
+    this.http.post<any>(miurl, JSON.stringify( misparams), {'headers':headers}).
+    subscribe ( res => {
+      console.log("Regresando de generar el pdf", res);
+      const getUrl = `${res.url}?modo=descargar_pdf`;
+      window.open(getUrl, "_blank");
+    })
   }
 
   imprime_relvtas(params:string) {

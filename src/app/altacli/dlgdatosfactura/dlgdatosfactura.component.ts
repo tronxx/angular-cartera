@@ -35,6 +35,7 @@ export class DlgdatosfacturaComponent implements OnInit {
   fechavta = "";
   statuscli = "";
   ubiage = "";
+  ticte = "";
   esrfcgenerico = true;
   todocorrecto_z = true;
   
@@ -56,6 +57,7 @@ export class DlgdatosfacturaComponent implements OnInit {
     this.fechavta =params_z.fechavta;
     this.factura = params_z.factura;
     this.statuscli = params_z.statuscli;
+    this.ticte = params_z.ticte;
     this.rfcgenerico();
     this.busca_catalogos();
     if(params_z.modo == "NUEVO") {
@@ -81,6 +83,10 @@ export class DlgdatosfacturaComponent implements OnInit {
           this.factura.email = this.seriefac.emailctegeneral;
           this.factura.cveusocfdi = 'G03';
           this.factura.cvemetodopago = '01';
+          if(this.ticte == "FI") { 
+              this.factura.cveusocfdi = 'P01'; 
+              this.factura.cvemetodopago = '99';
+            }
           this.factura.regimen = '616';
         }
       }

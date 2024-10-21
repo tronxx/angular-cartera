@@ -90,7 +90,7 @@ export class MorososComponent implements OnInit {
       }
     )
   }
-
+ 
   imprimir_poliza() {
     // Si una póliza existe y no está cerrada lo mando a consulta de esa
     // póliza para que se pueda cerrar

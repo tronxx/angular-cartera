@@ -346,4 +346,22 @@ export class ConfiguracionService {
   }
   
 
+  encodeUrl(url: string): string {
+    const [baseUrl, queryParams] = url.split('?');
+    if (!queryParams) {
+      return encodeURI(url); // Si no hay parámetros, solo codifica la URL completa.
+    }
+  
+    // Codifica cada uno de los parámetros de la URL.
+    const encodedParams = queryParams
+      .split('&')
+      .map(param => {
+        const [key, value] = param.split('=');
+        return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
+      })
+      .join('&');
+  
+    return `${baseUrl}?${encodedParams}`;
+  }
+
 }

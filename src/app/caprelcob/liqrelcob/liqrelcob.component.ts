@@ -319,6 +319,51 @@ export class LiqrelcobComponent implements OnInit {
   }
 
   imprimir_relcob() {
+    let mifechapoliza = this.fechapol;
+    let params_z = {
+      "codtda": this.tda_z,
+      "title": "Proporcione la Fecha de la Poliza"
+    }
+    const dialogref = this.dialog.open(DlgimpripolComponent, {
+      width:'350px',
+      data: JSON.stringify( params_z)
+     })
+     dialogref.afterClosed().subscribe(res => {
+      let rotacion = "NO";
+      if(this.sirotarpdf) rotacion = "SI";
+
+      if(res) {
+        mifechapoliza = res.fecha;
+        const params_z = {
+          modo: "imprimir_liq_poliza_morosos_pdf",
+          idpoliza: this.idpoliza,
+          primerpromotor: this.relcob?.promot,
+          ultimopromotor: this.relcob?.promot,
+          titulo:"Liq. Morosos Poliza " + this.codigopoliza?.clave + " " +
+          this.codigopoliza?.nombre + " Del " + mifechapoliza +
+          " Cobratario:" + this.relcob?.promot + 
+          " " + this.relcob?.nombrepromo
+        }
+        this.serviciospolizas.imprimir_liq_moroso_cobratario(JSON.stringify(params_z));
+        const params2_z = {
+          modo:"cerrar_status_comiscob",
+          tdapol: this.tda_z,
+          fechapol : mifechapoliza,
+          promotor: this.relcob?.promot,
+          rotarpdf: rotacion
+        }
+        this.serviciospolizas.cerrar_comiscob(JSON.stringify(params2_z)).subscribe( res => {
+          this.alerta("Se ha cerrado la relacion");
+        })
+        
+      }
+    });
+
+  
+  }
+
+
+  xximprimir_relcob() {
     const dialogref = this.dialog.open(DialogBodyComponent, {
       width:'800px',
       data: "Se cerrará la Cobnanza de este cobratario, seguro de Imprimir la Liquidación ?  "
