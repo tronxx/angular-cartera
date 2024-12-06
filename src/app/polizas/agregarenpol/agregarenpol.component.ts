@@ -56,6 +56,7 @@ export class AgregarenpolComponent implements OnInit {
   ultimo_z = "";
   esstatus1 = true;
   conplazo = "NO";
+  ticte = "";
   sitengoplazo = false;
   datosplazo = {
     fechaplazo: "",
@@ -249,6 +250,11 @@ export class AgregarenpolComponent implements OnInit {
       this.serv_z = this.cliente.servicio;
       this.bonifi_z  = this.cliente.bonificacion;
       this.nulets_z = this.cliente.nulet;
+      if(this.cliente.ticte == 'FI') {
+        this.let1_z = this.cargos_z;
+        this.nulets_z = 1;
+      }
+
       this.recobon_z = this.cliente.bonificacion;
       this.tiporecobon_z = "BONIFICACION";
       this.datospago.idcli  = this.cliente.idcli;
@@ -258,6 +264,7 @@ export class AgregarenpolComponent implements OnInit {
       this.pivacli_z = this.cliente.piva;
       this.sdoparacarta_z = this.prlet_z * this.CartaSaldadosMesesAntes;
       if(this.qom_z == "Q") this.sdoparacarta_z / 2;
+      this.ticte = this.cliente.ticte;
       this.tasarecargo_z = 10;
       this.strfechavta = this.cliente.numcli.substring(2,8);
       //this.alerta("strfechavta = " + this.strfechavta);
@@ -278,12 +285,12 @@ export class AgregarenpolComponent implements OnInit {
       //console.log('FechaStr:', this.strfechavta, 'Vencimientos:', this.listavencimientos_z);
       
 
-
+      console.log("Debug Abonos:" + this.abonos_z + " Engan:" + this.engan_z, " Serv:", this.serv_z);
       if(this.abonos_z >= (this.engan_z + this.serv_z) ) {
          
          this.imp1_z = (this.ltpag_z * this.prlet_z) + this.engan_z + this.serv_z;
          //console.log("Debug LtaPag:" + ltpag_z.toString() + " Imp:" + this.currencyPipe.transform(imp1_z, '$'));
-         //console.log("Debug LtaPag:" + this.ltpag_z.toString() + " Imp:" + this.imp1_z.toString());
+         console.log("Debug LtaPag:" + this.ltpag_z.toString() + " Imp:" + this.imp1_z.toString());
          if (this.imp1_z == this.abonos_z ) {
            this.impxcob_z = this.prlet_z;
            this.sigletra_z = this.ltpag_z + 1;
@@ -325,13 +332,22 @@ export class AgregarenpolComponent implements OnInit {
          this.datospago.recobon = 0;
          this.tipopagosel_z = "C";
          this.datospago.importe = (this.abonos_z - this.let1_z);
-         this.msg_z = "Debe ser Saldo de Enganche  " + " Por: $" +  
-           formatNumber( Number(this.impxcob_z) , 'en-US', '1.2-0');
+         // En caso de ser cliente ASI convierto let1 en total de cargos
+         if(this.ticte == 'FI') {
+          this.impxcob_z = this.cargos_z;
+          this.let1_z = this.cargos_z;
+          this.datospago.importe = this.cargos_z;
+
+         } 
+         console.log("El cliente es :", this.ticte, " impxcob", this.impxcob_z);
+         // -> this.msg_z = "Debe ser Saldo de Enganche  " + " Por: $" +  
+         // ->  formatNumber( Number(this.impxcob_z) , 'en-US', '1.2-0');
          this.datospago.concepto = "SALDO ENGANCHE";
          this.tiporecobon_z = "NETO"
          this.tipomovsel_z = "N";
          this.activar_tipopago(["A", "S"]);
          this.generanumpagos(0, 0);
+         console.log("El cliente es :", this.ticte, " impxcob", this.impxcob_z, this.datospago.concepto, this.datospago.importe);
 
 
        }

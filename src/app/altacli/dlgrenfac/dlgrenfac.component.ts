@@ -436,6 +436,10 @@ export class DlgrenfacComponent implements OnInit {
   }
 
   valida_aceptar ( ) {
+    if(this.renfac.codigo == "AUXILIAR") {
+      this.aceptarok = true;
+      return;
+    }
     if(this.ticte == "FI") {
       if(!this.esproductoasi) {
         this.aceptarok = false;
