@@ -16,6 +16,17 @@ export class ConfiguracionService {
     "cia": 0
   }
 
+  tictes_z = [
+    { clave:"PC", descri:"PRIMER CREDITO"},
+    { clave:"AR", descri:"AVAL CON REFERENCIAS"},
+    { clave:"CR", descri:"CLIENTE CON REFERENCIAS"},
+    { clave:"CC", descri:"CLIENTE DE CONTADO"},
+    { clave:"TC", descri:"TARJETA CREDITO"},
+    { clave:"FI", descri:"CLIENTE ASI"},
+    { clave:"EX", descri:"CRED.EXTERNO"},
+
+  ]
+
   cias : Compania[] = [];
   cia ?: Compania;
   cvecia_z = "";
@@ -190,34 +201,37 @@ export class ConfiguracionService {
     return (vencimiento_z);
   }
 
-  SumaDiasaFecha(fecha: Date, dias: number) {
-    let months = Math.floor(dias / 30);
-    const remainingDays = dias % 30;
-    let year = fecha.getFullYear();
-    let month = fecha.getMonth() + months;
-    let day = fecha.getDate() + remainingDays;
+SumaDiasaFecha(fecha: Date, dias: number) {
+  let months = Math.floor(dias / 30);
+  const remainingDays = dias % 30;
+  const monthoriginal = fecha.getMonth();
 
-    // Handle cases where the result day exceeds the number of days in the result month
-    if(dias > 0) {
-      while (day > new Date(year, month + 1, 0).getDate()) {
-        day -= new Date(year, month + 1, 0).getDate();
-        month++;
-      }
-  
-    } else {
-      while (day < 1) {
-        month--;
-        if (month < 0) {
-          month = 11;
-          year--;
-        }
-        day += new Date(year, month + 1, 0).getDate();
-      }
+  let year = fecha.getFullYear();
+  let month = fecha.getMonth() + months;
+  let day = fecha.getDate() + remainingDays;
+  //console.log("dias", dias, "day", day, "month", month, "monhoriginal", monthoriginal);
+
+  // Handle cases where the result day exceeds the number of days in the result month
+  if(dias > 0) {
+    while (day > new Date(year, month, 0).getDate()) {
+      day -= new Date(year, month + 1, 0).getDate();
+      month +=1;
     }
 
-    const resultDate = new Date(year, month, day);
-    return (resultDate);
+  } else {
+    while (day < 1) {
+      month = month - 1;
+      if (month < 0) {
+        month = 11;
+        year = year - 1;
+      }
+      day += new Date(year, month, 0).getDate();
+    }
   }
+
+  const resultDate = new Date(year, month, day);
+  return (resultDate);
+}
 
   corrige_fecha_fin_de_mes(strfec: string) {
     let anu = 0;
@@ -307,7 +321,8 @@ export class ConfiguracionService {
       if(!pagado) {
         vencido = fvence < fechamax;
       }
-
+      //console.log("Letra", letra, "fecven", fecven, "fechamax", fechamax, "fvence", fvence, "pagado", pagado);
+      
       listavencimientos_z.push({letra, vence, fecven, pagado, vencido});
 
     }

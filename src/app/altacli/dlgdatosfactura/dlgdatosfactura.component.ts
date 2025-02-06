@@ -38,7 +38,14 @@ export class DlgdatosfacturaComponent implements OnInit {
   ticte = "";
   esrfcgenerico = true;
   todocorrecto_z = true;
-  
+  FORMA_PAGO_EFECTIVO="01";
+  FORMA_PAGO_PORDEFINIR="99";
+  FORMA_PAGO_TRANSFERENCIA="03";
+
+  METODO_PAGO_PUE="PUE";
+  METODO_PAGO_PPD="PPD";
+
+
   metodospago : Metodopagocfdi [] = [];
   usoscfdi : Usocfdi[] = [];
   regimenes: RegimenFiscal [] = [];
@@ -82,11 +89,16 @@ export class DlgdatosfacturaComponent implements OnInit {
           this.factura.rfc = 'XAXX010101000';
           this.factura.email = this.seriefac.emailctegeneral;
           this.factura.cveusocfdi = 'G03';
-          this.factura.cvemetodopago = '01';
+          this.factura.cvemetodopago = this.FORMA_PAGO_EFECTIVO;
           if(this.ticte == "FI") { 
               this.factura.cveusocfdi = 'P01'; 
-              this.factura.cvemetodopago = '99';
-            }
+              this.factura.cvemetodopago = this.FORMA_PAGO_PORDEFINIR;
+          }
+          if(this.ticte == "EX") {
+            this.factura.cvemetodopago = this.FORMA_PAGO_TRANSFERENCIA;
+           }
+
+
           this.factura.regimen = '616';
         }
       }
@@ -127,7 +139,7 @@ export class DlgdatosfacturaComponent implements OnInit {
     const strfecmin_z = this.configuracion.fecha_a_str(fechamin, "YYYY-mm-dd");
     this.todocorrecto_z = true;
     if(this.factura) {
-      if(this.factura?.fecha < strfecmin_z) { 
+      if(this.factura.fecha < strfecmin_z) { 
         this.todocorrecto_z = false; 
         this.alerta( this.factura.fecha + " La fecha no puede ser menor a " + strfecmin_z);
       } 

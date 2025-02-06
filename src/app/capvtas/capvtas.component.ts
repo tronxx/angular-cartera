@@ -164,6 +164,7 @@ export class CapvtasComponent implements OnInit {
     { clave:"CC", descri:"CLIENTE DE CONTADO"},
     { clave:"TC", descri:"TARJETA CREDITO"},
     { clave:"FI", descri:"CLIENTE ASI"},
+    { clave:"EX", descri:"CRED.EXTERNO"},
 
   ]
 
@@ -199,11 +200,12 @@ export class CapvtasComponent implements OnInit {
     this.codcartera_z = usrreg_z.codcartera + strfecha + "99";
     this.antubica = this.ubica;
     this.antcod_z = this.codcartera_z;
+    this.tictes_z = this.configuracion.tictes_z;
   }
   
 
 
-  xagregar_renfac() {
+  agregar_renfac() {
     // console.log("El codigo es", this.codigo_z);
     if(this.ticte == "TC" && this.mitarjetatc == "-1") {
       this.alerta("debe seleccionar el tipo de tarjeta de crédito");
@@ -374,7 +376,9 @@ export class CapvtasComponent implements OnInit {
       if(miren.codigo != "AUXILIAR") {
         if(miren.esoferta && this.oferta) {
           if(this.ticte == "TC" && plazotc == 0) {
-            this.factoroferta = 3;
+            // 2025-Ene-03 Se modifica el factor baja de 3 a 0
+            //this.factoroferta = 3;
+            this.factoroferta = 0;
             this.oferta = true;
           }
       
@@ -421,7 +425,7 @@ export class CapvtasComponent implements OnInit {
       this.totprodfin = this.totgral - this.tottotal;
       if(this.totprodfin < 0) this.simostrarprodfin = false; else  this.simostrarprodfin = true;
     } else {
-      if(this.ticte != "FI" ) {
+      if(this.ticte != "FI" && this.ticte != "EX" ) {
         this.factordscto = this.buscar_tasa_descto_cont(milinea, this.ticte, this.mitarjetatc);
       }
       if(this.factordscto == -1 ) {
@@ -677,7 +681,7 @@ selecciona_tarjetas_tc() {
     this.busca_tipos_tarjetas();
   } else {
     this.contarjetatc = false;
-    if(this.ticte != "CC" && this.ticte != "FI") {
+    if(this.ticte != "CC" && this.ticte != "FI" && this.ticte != "EX") {
       this.escredito = true;
       this.qom = "Q";
     }
@@ -733,7 +737,7 @@ aceptar() {
 }
 
 async pide_datos_cliente() {
-  if(this.ticte == "CC" || this.ticte == "TC" || this.ticte == "FI") {
+  if(this.ticte == "CC" || this.ticte == "TC" || this.ticte == "FI" || this.ticte == "EX" ) {
      this.enganche = this.totgral;
   }
   let params_z = {
@@ -984,6 +988,7 @@ pide_precio_oferta(renfac: Nvorenfac) {
   
          } else {
           this.articuloscotizados[id].precionormal = res.proferta;
+          this.articuloscotizados[id].preciolista = res.proferta;
           if(res.proferta) this.articuloscotizados[id].esoferta = false;
    
          }

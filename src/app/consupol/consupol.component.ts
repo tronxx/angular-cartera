@@ -48,6 +48,7 @@ export class ConsupolComponent implements OnInit {
   rectimbrado_z = "";
   statuspol_z = "";
   claveempresa = "";
+  dias_z = 5;
 
   datosalerta = {
     alertapoliza : true
@@ -426,7 +427,6 @@ mensaje_cfdi(mensaje: string) {
   });
 
 }
-
 
 
 }

@@ -196,6 +196,7 @@ export class AltacliComponent implements OnInit {
   ngOnInit(): void {
     var mistorage_z  = localStorage.getItem('token') || "{}";
     this.usrreg_z =  JSON.parse(mistorage_z);
+    this.tictes_z = this.config.tictes_z;
     this.buscarclienteinicial();
   }
 

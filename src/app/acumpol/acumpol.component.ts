@@ -33,6 +33,7 @@ export class AcumpolComponent implements OnInit {
   nomtda_z = "";
   enespera = false;
   tdaspol_z? = {};
+  dias_z = 0;
 
   cobratario = {
     "idpromot": 0,
