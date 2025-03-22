@@ -11,6 +11,7 @@ import { ConfiguracionService } from '../../services/configuracion.service';
 import { PidefirmaComponent } from '../../altacli/pidefirma/pidefirma.component';
 import { TomafotosComponent } from '../../common/tomafotos/tomafotos.component';
 import { PidepasswdComponent } from '../../common/pidepasswd/pidepasswd.component';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-imagenes',
@@ -29,6 +30,14 @@ export class ImagenesComponent implements OnInit {
   nuevocodigo = "";
   puedepedirimagenes = false;
   pedircambiocodigo = false;
+  imagenes = {
+    firmacliente: "",
+    firmaaval: "",
+    ineclientefrente: "",
+    ineclientereverso: "",
+    ineavalfrente: "",
+    ineavalreverso: ""
+  }
 
   usrreg_z = {
     "idusuario":0,
@@ -39,10 +48,12 @@ export class ImagenesComponent implements OnInit {
     "iniciales":"",
     "nivel":""
   }
-  constructor(public dialog: MatDialog, 
+  constructor(
+    public dialog: MatDialog, 
     private route: ActivatedRoute,
     private servicioclientes: ClientesService,
     private datePipe: DatePipe,
+    private configService: ConfiguracionService,
     private router: Router
 
   ) {}
@@ -98,14 +109,28 @@ export class ImagenesComponent implements OnInit {
 
   }
 
+  async obtener_imagenes(): Promise<any> {
+    const params = { codigo: this.codcartera_z};
+    return await lastValueFrom ( this.servicioclientes.obtener_imagenes(JSON.stringify(params)));
+   }
 
-  actualizar_imagenes() {
-    this.getImagenURLfirmaCliente("cliente");
-    this.getImagenURLfirmaAval("aval");
-    this.getImagenURLIneFrenteCliente('ine_frente_cliente')
-    this.getImagenURLIneReversoCliente('ine_reverso_cliente')
-    this.getImagenURLIneFrenteAval('ine_frente_aval')
-    this.getImagenURLIneReversoAval('ine_reverso_aval')
+  async actualizar_imagenes() {
+    const respu = await this.obtener_imagenes();
+    console.log("Regresando de buscar imagenes", respu);
+    this.imagenes = JSON.parse(JSON.stringify(respu));
+    let id = Math.round( Math.random() * 1000);
+    this.firmacliente =  `${this.servicioclientes.url}/${this.imagenes.firmacliente}?id=${id}`;
+    this.firmaaval =  `${this.servicioclientes.url}/${this.imagenes.firmaaval}?id=${id}`;
+    this.inefrentecliente =  `${this.servicioclientes.url}/${this.imagenes.ineclientefrente}?id=${id}`;
+    this.inereversocliente =  `${this.servicioclientes.url}/${this.imagenes.ineclientereverso}?id=${id}`;
+    this.inefrenteaval =  `${this.servicioclientes.url}/${this.imagenes.ineavalfrente}?id=${id}`;
+    this.inereversoaval =  `${this.servicioclientes.url}/${this.imagenes.ineavalreverso}?id=${id}`;
+    // this.getImagenURLfirmaCliente("cliente");
+    // this.getImagenURLfirmaAval("aval");
+    // this.getImagenURLIneFrenteCliente('ine_frente_cliente')
+    // this.getImagenURLIneReversoCliente('ine_reverso_cliente')
+    // this.getImagenURLIneFrenteAval('ine_frente_aval')
+    // this.getImagenURLIneReversoAval('ine_reverso_aval')
   }
 
   getImagenURLfirmaCliente(clioaval: string) {
@@ -135,12 +160,23 @@ export class ImagenesComponent implements OnInit {
 
   getImagenURLIne(modo: string) {
     let id = Math.round( Math.random() * 1000);
+    const imagindefault =  `${this.servicioclientes.url}uploads/ine/identidad_blanco.jpg`;
     let imagin =  `${this.servicioclientes.url}uploads/ine/${this.codcartera_z}_${modo}.jpg?id=${id}`;
+    this.checkImageExists(imagin, (exists: boolean) => {
+      if (!exists) {
+        imagin = imagindefault;
+      }
+    });
     return(imagin);
  
   }
 
-
+  checkImageExists(url: string, callback: (exists: boolean) => void) {
+    const img = new Image();
+    img.onload = () => callback(true);
+    img.onerror = () => callback(false);
+    img.src = url;
+  }
 
   getImagenURLfirma(clioaval: string) {
     let id = Math.round( Math.random() * 1000);

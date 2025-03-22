@@ -444,8 +444,11 @@ imprimir_factura() {
 descarga_pdf_fac(uuid: string) {
   const ciudadcli = this.cliente?.poblac;
   const codpostal = this.cliente?.codpost;
-  const direccli = this.cliente?.direc;
+  let direccli = this.cliente?.direc;
   const ticte = this.cliente?.ticte;
+  if(ticte == "FI") {
+    direccli = this.cliente?.calle + "N. " + this.cliente?.numpred + this.cliente?.colonia;
+  }
   let strrotarfac_z = "NO";
   if (this.rotarfac) {
     strrotarfac_z = "ROTAR";

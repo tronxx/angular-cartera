@@ -313,6 +313,23 @@ ClientesService {
     // return this.http.post(this.url + 'usuarios/busca_usuarios.php', body,{'headers':headers});
   }
 
+  obtener_imagenes( parametros: string): Observable<any[]> {
+    
+    let respu_z = "";
+    let miurl = this.url + "/altas/serviciosaltas.php"
+    const headers = { 'content-type': 'text/plain'};
+    const body=parametros;
+    let misparams = JSON.parse(parametros);
+    misparams = {
+      'modo':'obtener_lista_firmas_ine',
+      'codigo': misparams.codigo
+    }
+
+    //if(this.debug) console.log("Debug: Estoy en obtener_imagenes ", misparams, miurl);
+  
+    return this.http.post<any>(miurl, JSON.stringify( misparams), {'headers':headers});
+  }
+
   grabar_status_imagenes_grabadas ( parametros: string): Observable<any> {
     
     let respu_z = "";
