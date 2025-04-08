@@ -5,6 +5,7 @@ import { ConfiguracionService } from '../../services/configuracion.service';
 import { Md5 } from 'ts-md5';
 import { DatePipe } from '@angular/common';
 import { PolizasService } from '../../services/polizas.service';
+import { lastValueFrom } from 'rxjs';
 
 
 @Component({
@@ -21,6 +22,7 @@ export class PidepasswdComponent implements OnInit {
   cadena_z ="";
   cadpas_z = "";
   fechasrv_z = "";
+  debug = false;
   
   constructor(
     public dialogRef: MatDialogRef<PidepasswdComponent>,
@@ -39,18 +41,14 @@ export class PidepasswdComponent implements OnInit {
   }
 
   async busca_fecha() {
-    await this.obten_fecha_servidor();
+    this.obten_fecha_servidor();
   }
 
   async obten_fecha_servidor() {
-    this.serviciosPolizas.obten_fecha_servidor ().subscribe(
-      respu => {
-        let misdatos = respu;
-        this.fechasrv_z = misdatos.fechayhora.substring(0,4);
-        this.fechasrv_z += misdatos.fechayhora.substring(5,7);
-        this.fechasrv_z += misdatos.fechayhora.substring(8,13);
-      }
-    );
+    const misdatos = await lastValueFrom (this.serviciosPolizas.obten_fecha_servidor ());
+    this.fechasrv_z = misdatos.fechayhora.substring(0,4);
+    this.fechasrv_z += misdatos.fechayhora.substring(5,7);
+    this.fechasrv_z += misdatos.fechayhora.substring(8,13);
   
   }
 

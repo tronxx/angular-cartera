@@ -223,7 +223,7 @@ export class CapvtasComponent implements OnInit {
       "qom": this.qom,
     }
     const dlgdatosrenfac= this.dialog.open(DlgrenfacComponent, {
-      width: '700px',
+      width: '80%',
       data: JSON.stringify(params_z)
      });
         
@@ -425,7 +425,7 @@ export class CapvtasComponent implements OnInit {
       this.totprodfin = this.totgral - this.tottotal;
       if(this.totprodfin < 0) this.simostrarprodfin = false; else  this.simostrarprodfin = true;
     } else {
-      if(this.ticte != "FI" && this.ticte != "EX" ) {
+      if(this.ticte != "FI"  ) {
         this.factordscto = this.buscar_tasa_descto_cont(milinea, this.ticte, this.mitarjetatc);
       }
       if(this.factordscto == -1 ) {
@@ -495,7 +495,7 @@ export class CapvtasComponent implements OnInit {
   eliminar_renfac(mirenfac: Nvorenfac) {
     let idren = mirenfac.id;
     const dialogref = this.dialog.open(DialogBodyComponent, {
-      width:'350px',
+      width:'80%',
       data: 'Seguro de Eliminar Renglon: ' + mirenfac.codigo + 
       " " + mirenfac.concepto
     });
@@ -748,7 +748,7 @@ async pide_datos_cliente() {
     status:this.nvoclistatus
   }
   const dialogmov = this.dialog.open(DlgDatosvtaComponent, {
-    width:'700px',
+    width:'80%',
     data: JSON.stringify(params_z)
   });
   dialogmov.afterClosed().subscribe(async res => { 
@@ -785,7 +785,7 @@ acompletar_datos_renfac(renfac: Nvorenfac){
     "pedimento": renfac.pedimento
    }
    const dlgdatosrenfac= this.dialog.open(DlgrenfacComponent, {
-    width: '700px',
+    width: '80%',
     data: JSON.stringify(params_z)
    });
    dlgdatosrenfac.afterClosed().subscribe(res => {
@@ -954,7 +954,7 @@ pedir_datos_fac() {
   params_z.factura.idcli = this.idcli;
   params_z.factura.idfac = -1;
   const dialogmov = this.dialog.open(DlgdatosfacturaComponent, {
-    width:'700px',
+    width:'80%',
     data: JSON.stringify(params_z)
   });
   dialogmov.afterClosed().subscribe(res => {
@@ -977,7 +977,7 @@ pide_precio_oferta(renfac: Nvorenfac) {
     "tipo":true
    }
    const dlgdatosrenfac= this.dialog.open(DlgpidprofertaComponent, {
-    width: '700px',
+    width: '80%',
     data: JSON.stringify(params_z)
    });
    dlgdatosrenfac.afterClosed().subscribe(res => {
@@ -1009,7 +1009,7 @@ precios_abiertos() {
     "ubicacion": cod_z
    }
    const dlgdatosrenfac= this.dialog.open(PidepasswdComponent, {
-    width: '400px',
+    width: '50%',
     data: JSON.stringify(params_z)
    });
    dlgdatosrenfac.afterClosed().subscribe(res => {

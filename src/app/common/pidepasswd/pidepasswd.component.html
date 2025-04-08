@@ -5,6 +5,7 @@
         <input style="width: 80%;" type="text" id="password" (change)="verfica_password()" 
         [(ngModel)]="password_z">
     </div>
+    <label *ngIf="debug" >{{cadena_z}} </label> 
     
 </div>
 <div mat-dialog-actions style="display: flex; justify-content: space-around; justify-items: center;">

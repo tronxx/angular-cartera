@@ -18,6 +18,7 @@ import { Tabladesctocont } from '../../models';
 import { SpinnerComponent } from '../../common/spinner/spinner.component';
 import { PidepasswdComponent } from '../../common/pidepasswd/pidepasswd.component';
 import { DatePipe } from '@angular/common';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-facturacli',
@@ -51,6 +52,7 @@ export class FacturacliComponent implements OnInit {
   clientecred = false;
   rotarfac = false;
   sinpassword = true;
+  cerrandofactura = false;
   fechaprop_z: string | null  = "";
   dias_z = 0;
   factortvtacrd? : Factorvtacred;
@@ -391,7 +393,7 @@ validar_fecha_cierre() {
   return resultado_z;
 }
 
-cerrar_factura() {
+async cerrar_factura() {
   let validar_z = this.validar_fecha_cierre();
   if(!validar_z.escorrecto_z) {
     this.alerta(validar_z.msg1_z);
@@ -402,15 +404,16 @@ cerrar_factura() {
     width:'350px',
     data: 'Seguro de Cerrar esta Factura'
   });
-  dialogref.afterClosed().subscribe(res => {
+  dialogref.afterClosed().subscribe(async res => {
     if (res) {
       let params_z = {
         idcli: this.idcli,
         idfac: this.idfac,
         fechacierre: this.fechacierre_z
       }
-      this.servicioclientes.cerrar_factura_altas(JSON.stringify(params_z)).subscribe( resalta=> {
-
+      this.cerrandofactura = true;
+      const resalta = await lastValueFrom(this.servicioclientes.cerrar_factura_altas(JSON.stringify(params_z)));
+      this.cerrandofactura = false;
         if(resalta.status == "OK") {
           this.descarga_pdf_fac(resalta.uuid);
           this.busca_factura();
@@ -418,7 +421,6 @@ cerrar_factura() {
           this.alerta("Error:" + resalta.error);
           console.log("Debug: Error", resalta);
         }
-      });
     }
   });
 
