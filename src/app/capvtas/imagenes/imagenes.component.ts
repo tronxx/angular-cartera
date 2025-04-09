@@ -68,7 +68,8 @@ export class ImagenesComponent implements OnInit {
     let strfecha =  this.datePipe.transform(ayer_z,"yyMMdd");
     let mistorage_z  = localStorage.getItem('capvtas') || "{}";
     let usrreg_z =  JSON.parse(mistorage_z);
-    this.codcartera_z = usrreg_z.codcartera + strfecha + "01";    
+    this.codcartera_z = usrreg_z.codcartera + strfecha + "01";
+    this.actualizar_imagenes();
   }
 
   aceptar_codigo() {

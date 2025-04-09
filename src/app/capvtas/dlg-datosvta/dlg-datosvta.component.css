@@ -21,94 +21,103 @@ fieldset {
 
 /* Estilos generales */
 mat-card {
-    margin-bottom: 20px;
-    padding: 20px;
-    border: 2px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  mat-card-title {
-    margin-bottom: 20px;
-    font-weight: bold;
-    color: #333;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
-  }
-  
-  /* Estilos para organizar los campos en filas */
-  .row {
-    display: flex;
-    flex-wrap: wrap;
-    margin-bottom: 15px;
+  margin-bottom: 20px;
+  padding: 20px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+mat-card-title {
+  margin-bottom: 20px;
+  font-weight: bold;
+  color: #333;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+/* Estilos para organizar los campos en filas */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+/* Configuración de los grupos de inputs */
+.input-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+/* Estilos para los inputs que ocupan la mitad del ancho */
+.half-width {
+  width: 50%;
+  padding-right: 10px;
+  box-sizing: border-box;
+}
+
+/* Para el último contenedor que tiene dos campos en 1/4 cada uno */
+.quarter-width-container {
+  display: flex;
+  width: 50%;
+}
+
+.quarter-width-container .input-group {
+  width: 50%;
+  padding-right: 10px;
+  box-sizing: border-box;
+}
+
+/* Estilos para los inputs y selects */
+input, select {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-left: 10px;
+}
+
+/* Estilos para las etiquetas */
+label {
+  min-width: 140px;
+  font-weight: 500;
+}
+
+/* Responsive para pantallas pequeñas */
+@media (max-width: 768px) {
+  .half-width, .quarter-width-container {
     width: 100%;
+    padding-right: 0;
   }
   
-  /* Configuración de los grupos de inputs */
+  .row {
+    flex-direction: column;
+  }
+  
   .input-group {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-bottom: 10px;
+    flex-direction: column;
+    align-items: flex-start;
   }
   
-  /* Estilos para los inputs que ocupan la mitad del ancho */
-  .half-width {
-    width: 50%;
-    padding-right: 10px;
-    box-sizing: border-box;
-  }
-  
-  /* Para el último contenedor que tiene dos campos en 1/4 cada uno */
   .quarter-width-container {
-    display: flex;
-    width: 50%;
+    flex-direction: column;
   }
   
   .quarter-width-container .input-group {
-    width: 50%;
-    padding-right: 10px;
-    box-sizing: border-box;
+    width: 100%;
   }
   
-  /* Estilos para los inputs y selects */
-  input, select {
-    flex: 1;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-    margin-left: 10px;
-  }
-  
-  /* Estilos para las etiquetas */
   label {
-    min-width: 140px;
-    font-weight: 500;
+    margin-bottom: 5px;
+    min-width: 100%;
   }
   
-  /* Responsive para pantallas pequeñas */
-  @media (max-width: 768px) {
-    .half-width, .quarter-width-container {
-      width: 100%;
-      padding-right: 0;
-    }
-    
-    .row {
-      flex-direction: column;
-    }
-    
-    .input-group {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-    
-    label {
-      margin-bottom: 5px;
-    }
-    
-    input, select {
-      width: 100%;
-      margin-left: 0;
-    }
+  input, select {
+    width: 100%;
+    margin-left: 0;
   }
+}
