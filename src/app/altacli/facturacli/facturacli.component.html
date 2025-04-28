@@ -16,8 +16,9 @@
                                  Modificar Factura
                             </button>
                             <button mat-raised-button color="primary" 
-                            [disabled]="escerrada || !fechacorrecta_z" (click)="cerrar_factura()" >
+                            [disabled]="escerrada || !fechacorrecta_z || cerrandofactura" (click)="cerrar_factura()" >
                                 <mat-icon aria-hidden="false" aria-label="Example new icon">lock</mat-icon>
+                                <mat-spinner *ngIf="cerrandofactura" diameter="35"></mat-spinner>
                                 Cerrar Factura
                             </button>
                             <button mat-raised-button color="primary" 

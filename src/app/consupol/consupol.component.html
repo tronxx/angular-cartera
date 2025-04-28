@@ -14,8 +14,9 @@
 </div>
 <hr>
 <div  id="despliegapoliza">
-    <button mat-raised-button color="primary" (click)="imprimirpoliza()">
+    <button mat-raised-button color="primary" [disabled]="cerrandopoliza"  (click)="imprimirpoliza()">
         <mat-icon aria-hidden="false" aria-label="Example home icon">print</mat-icon>
+        <mat-spinner *ngIf="cerrandopoliza"></mat-spinner>
         Imprimir Poliza
     </button>
     <button mat-raised-button color="primary" (click)="imprimirdespacho()">

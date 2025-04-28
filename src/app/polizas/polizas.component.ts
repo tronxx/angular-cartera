@@ -448,34 +448,6 @@ export class PolizasComponent implements OnInit {
      }
   }
 
-  activartipomov( tipos:string[]) {
-  }
-
-  generanumpagos(inicio:number, final:number) {
-  }
-  
-  activar_tipopago(tipospagodisp:string[]) {
-  }
-
-  calculaConcepto() {
-  }
-
-  calcula_bonif_extra () {
-    
-  }
-
-  calcula_mub() {
-  
-  }
-  
-  calculaNeto () {
-  }
-
-  validarpago() {
-  }
-
-  errorespago () {
-  }
 
   cancelarpago() {
     this.aceptarpago = false;
@@ -483,12 +455,6 @@ export class PolizasComponent implements OnInit {
     this.datospago.conceptocompl = "";
   }
 
-  
-  clickaceptarpago() {
-  }
-
-  confirma_aceptar_pago() {
-  }
 
   si_aceptarpago() {
     this.datospago.idpoliza = this.idpoliza;
@@ -618,12 +584,6 @@ export class PolizasComponent implements OnInit {
   
   }
 
-  define_bonif_abierta() {
-  }
-
-
-  sel_tipopago() {
-  }
 
   busca_aval(idcli_z : number) {
     var params_z = {
@@ -642,9 +602,6 @@ export class PolizasComponent implements OnInit {
       }
     );
 
-  }
-
-  calcula_bonif_o_rec(miletra_z:number) {
   }
 
 
