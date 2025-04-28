@@ -320,7 +320,7 @@ export class CapvtasComponent implements OnInit {
 
   }
 
-  calcular_totales() {
+  xcalcular_totales() {
     this.totimporte = 0;
     this.totiva = 0;
     let plazotc = 0;
@@ -445,6 +445,160 @@ export class CapvtasComponent implements OnInit {
     console.log("Resultados:", messages_z);
     
     if(!this.hayerror && this.totgral > 1) this.esvalido=true;
+  }
+
+
+  calcular_totales() {
+    this.totimporte = 0;
+    this.totiva = 0;
+    let plazotc = 0;
+    let importe = 0;
+    let iva = 0;
+    this.factoroferta = 0;
+    let hayoferta = false;
+    this.hayerror = false;
+    let messages_z =[];
+
+    let ii_z =0;
+    let milinea = this.linea_z;
+    this.esvalido=false;
+    let conse_z = this.codcartera_z.substring(8,10);
+    let consecorrecto_z = Number(conse_z).toString().padStart(2, "0");
+    if ( conse_z != consecorrecto_z) {
+      this.hayerror = true;
+      this.msgerror_z =  "El codigo del cliente es incorrecto, el Consecutivo tiene:" +  
+      conse_z + " y debería ser " + consecorrecto_z;
+    }
+
+    this.servicio = Number(this.servicio);
+    if(Number(this.servicio)  < 0) {
+        this.alerta("El Servicio No puede ser negativo, lo convierto a cero");
+        this.servicio = 0;
+    }
+    if(this.ticte == "TC") {
+      this.tarjetastc.forEach( rentabla => {
+        if(this.mitarjetatc  == rentabla.clave) {
+          plazotc = rentabla.plazo;
+        }
+      });
+    }
+    this.factordscto = 0;
+    this.descto = 0;
+    let mifacdescto = 0;
+    let midescto = 0;
+    this.oferta = false;
+    if((this.ticte == "TC" && plazotc == 0)  || this.ticte == "CC" )  {
+      this.oferta = true;
+    }
+    milinea = "-1"
+    // Determino la linea del producto 
+    this.articuloscotizados.forEach(miren => {
+      if(milinea == "-1" )  milinea = miren.linea;
+      if(milinea != "MOTO")  milinea = miren.linea;
+    });
+
+    this.factordscto = this.buscar_tasa_descto(milinea);
+
+    if(milinea != 'MOTO' && this.nulet == 4) {
+      this.factordscto = 12;
+      this.descto = Math.floor(this.tottotal * this.factordscto / 100);
+      this.totgral = this.tottotal - this.descto;
+    }
+    messages_z.push("01- Ya seleccione factorDescto:" + this.factordscto.toString());
+    let descto = 0;
+
+    this.articuloscotizados.forEach(miren => {
+      ii_z = miren.id;
+      if(miren.codigo != "AUXILIAR") {
+        if(miren.esoferta && this.oferta) {
+          if(this.ticte == "TC" && plazotc == 0) {
+            // 2025-Ene-03 Se modifica el factor baja de 3 a 0
+            //this.factoroferta = 3;
+            this.factoroferta = 0;
+            this.oferta = true;
+          }
+      
+          hayoferta = true;
+          importe = (miren.proferta * (1 + this.factoroferta /100 ) / (miren.piva / 100 + 1));
+        } else {
+          this.factoroferta = 0;
+          miren.precionormal = miren.preciolista;          
+          importe = miren.precionormal * (1 + this.factoroferta /100 ) / (miren.piva / 100 + 1);
+          importe = Math.round(importe * 100) / 100;
+          // Voy a hacer el redondeo pieza por pieza
+          // importe = Math.round(importe + .49);
+          messages_z.push("01-a Calculando:" + miren.precionormal.toString() + ":" + this.factoroferta.toString());
+        }
+        iva = Math.round( importe * 100 * (miren.piva / 100)) / 100;
+        this.articuloscotizados[ii_z].importe = importe;
+        this.articuloscotizados[ii_z].iva = iva;
+        this.totimporte += importe;
+        descto += Math.floor((importe + iva) * this.factordscto / 100);
+        this.totiva +=  iva;
+ 
+      }
+    });
+    this.tottotal = Math.round((this.totimporte + this.totiva) + .49);
+    this.totgral = this.tottotal;
+    messages_z.push("02 Ya Calcule totales Tottotal:" + 
+      this.tottotal.toString() + " totgral:" + this.totgral.toString() +
+      " Servicio: " + this.servicio.toString() );
+    if(!hayoferta) { this.descto = descto; }
+
+    if(this.escredito) {
+      this.preciolet = 0;
+      if(this.nulet == 0) { 
+        this.nulet = 1;
+      }
+      this.factorlet  = this.busca_factor_vtacrd(this.nulet);
+      //this.descto = Math.floor(this.tottotal * this.factordscto / 100);
+      this.totgral = this.tottotal - this.descto;
+      messages_z.push("03 Es Credito Tottotal:" + 
+        this.tottotal.toString() + " totgral:" + this.totgral.toString() +
+        " Descto:"+ this.descto.toString() + " Factor Letra: " + this.factorlet.toString()
+      );
+
+      if(!this.factorlet) this.factorlet = 1 / this.nulet;
+      this.preciolet = Math.round((((this.tottotal - this.descto) - this.enganche) * this.factorlet));
+      this.totgral = this.enganche +  (this.preciolet * this.nulet);
+      this.totprodfin = this.totgral - this.tottotal;
+      if(this.totprodfin < 0) this.simostrarprodfin = false; else  this.simostrarprodfin = true;
+    } else {
+      if(this.ticte != "FI"  ) {
+        this.factordscto = this.buscar_tasa_descto_cont(milinea, this.ticte, this.mitarjetatc);
+      }
+      if(this.factordscto == -1 ) {
+        this.hayerror = true;
+        this.msgerror_z = "Forma de Pago Invalida";
+      } else {
+        if(!hayoferta) {
+          //this.descto = descto;
+          //this.descto = Math.floor(this.tottotal * this.factordscto / 100);
+          this.totgral = this.tottotal - this.descto;
+            messages_z.push("04 Contado Tottotal:" + 
+            this.tottotal.toString() + " totgral:" + this.totgral.toString() +
+            " Descto:"+ this.descto.toString() + " Factor Descto:" + this.factordscto.toString()
+            );
+        }
+      }
+    }
+    console.log("Resultados:", messages_z);
+    
+    if(!this.hayerror && this.totgral > 1) this.esvalido=true;
+  }
+
+  buscar_tasa_descto(linea: string) {
+    let factordescto = -1
+    if(this.escredito && linea != 'MOTO' && this.nulet == 4 ) {
+      factordescto = 12;
+    } else {
+      if(this.ticte != "FI"  ) {
+        factordescto = this.buscar_tasa_descto_cont(linea, this.ticte, this.mitarjetatc);
+      }
+
+    }
+    return (factordescto)
+
   }
 
   buscar_tasa_descto_cont(milinea: string, ticte: string, cvetarjetatc: string)
@@ -606,6 +760,7 @@ obtencatalogos() {
   this.servicioclientes.buscar_aofertas_json().subscribe(
     respu => {
       this.ofertas = respu;
+      //console.log("Ofertas:", this.ofertas);
     }
   );
   this.buscanulets();
@@ -711,6 +866,7 @@ busca_tipos_tarjetas() {
   
   this.servicioclientes.buscar_tarjetas_tc(JSON.stringify(params_z)).subscribe(
     respu => {
+      console.log("Tarjetas TC:", respu);
       if(respu) {
         respu.forEach(mitc => {
           if(mitc.plazo <= plazomax) {

@@ -13,7 +13,7 @@ import { DialogBodyComponent } from '../dialog-body/dialog-body.component';
 import { DlgbuscliComponent } from '../common/dlgbuscli/dlgbuscli.component';
 import { MatIconModule } from '@angular/material/icon'; 
 import { Compania } from '../models/config';
-import { Observable } from 'rxjs';
+import { lastValueFrom, Observable } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SpinnerComponent } from '../common/spinner/spinner.component';
 
@@ -49,6 +49,7 @@ export class ConsupolComponent implements OnInit {
   statuspol_z = "";
   claveempresa = "";
   dias_z = 5;
+  cerrandopoliza = false;
 
   datosalerta = {
     alertapoliza : true
@@ -335,11 +336,13 @@ imprimir_cfdi_recargo() {
 
 }
 
-cierra_poliza( params_z: string) {
+async cierra_poliza( params_z: string) {
   let params = JSON.parse (params_z);
+  this.cerrandopoliza = true;
   console.log("Debug: Estoy en cerrar poliza:", params_z);
-  this.serviciopolizas.cierra_poliza(JSON.stringify(params)).subscribe(
-    respu => {
+  const respu = await lastValueFrom (this.serviciopolizas.cierra_poliza(JSON.stringify(params)));
+  this.cerrandopoliza = false;
+  
       let mirespu_z = respu;
       this.uuidpol_z = mirespu_z.uuidpol;
       this.uuidrec_z = mirespu_z.uuidrec;
@@ -364,15 +367,13 @@ cierra_poliza( params_z: string) {
       //   let paramrec_z = { "uuid": this.uuidrec_z };
       //   this.serviciopolizas.obten_pdf_cfdi(JSON.stringify(paramrec_z));  
       // }
-      let params = {
+      const params2 = {
         "modo":"obtener_datos_poliza",
         "fechapoliza":this.fechapol_z,
         "tdapol":this.tda_z
       };
-      this.serviciopolizas.obten_impresion_poliza_caja(JSON.stringify(params));
-  }
-  );
-
+      this.serviciopolizas.obten_impresion_poliza_caja(JSON.stringify(params2));
+  
 }
 
 datos_poliza() {

@@ -418,7 +418,7 @@ async cerrar_factura() {
           this.descarga_pdf_fac(resalta.uuid);
           this.busca_factura();
         } else {
-          this.alerta("Error:" + resalta.error);
+          this.alerta("Error:" + resalta.mensaje);
           console.log("Debug: Error", resalta);
         }
     }
