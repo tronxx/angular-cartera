@@ -588,7 +588,7 @@ export class CapvtasComponent implements OnInit {
   }
 
   buscar_tasa_descto(linea: string) {
-    let factordescto = -1
+    let factordescto = 0;
     if(this.escredito && linea != 'MOTO' && this.nulet == 4 ) {
       factordescto = 12;
     } else {
@@ -597,6 +597,7 @@ export class CapvtasComponent implements OnInit {
       }
 
     }
+    if(factordescto < 0 ) factordescto = 0;
     return (factordescto)
 
   }
